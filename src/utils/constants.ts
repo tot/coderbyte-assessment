@@ -1,4 +1,4 @@
-const CACHE_TTL = 30; // 30 seconds
-const VALIDITY_THRESHOLD = 5;
+const CACHE_TTL = 3600; // 30 seconds
+const VALIDITY_THRESHOLD = 3550;
 
 export { CACHE_TTL, VALIDITY_THRESHOLD };
