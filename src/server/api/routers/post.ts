@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { generateKey, isValidData } from "~/utils/cache";
 import { z } from "zod";
@@ -54,21 +52,44 @@ export const postRouter = createTRPCRouter({
     }),
 
   create: publicProcedure
-    .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      return ctx.db.post.create({
+    .input(
+      z.object({
+        author: z.string().min(2).max(200),
+        title: z.string().min(2).max(200),
+        slug: z.string().min(2),
+        content: z.string().min(2),
+      }),
+    )
+    .mutation(async ({ ctx: { db, redis }, input }) => {
+      const newPost = await db.post.create({
         data: {
-          name: input.name,
+          ...input,
         },
       });
-    }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
-  }),
+      // Get all keys in cache
+      const keys = await redis.keys("*");
+
+      // Check if any of the keys are keywords in the new post
+      keys.forEach(async (key) => {
+        if (
+          newPost.title.toLowerCase().includes(key) ||
+          newPost.content.toLowerCase().includes(key)
+        ) {
+          // Get TTL and current data for the key
+          const ttl = await redis.ttl(key);
+          const cachedData = await redis.get(key);
+
+          // If it there is an entry in the cache with keywords that are in the new post,
+          // Add the new post to the key's entry and update the cache
+          if (cachedData) {
+            const data = cachedPosts.parse(stringToJSON().parse(cachedData));
+            data.push(newPost);
+
+            await redis.set(key, JSON.stringify(data), "EX", ttl, "NX");
+          }
+        }
+      });
+      return {};
+    }),
 });
