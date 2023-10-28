@@ -18,6 +18,16 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  experimental: {
+    swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
+  },
 };
 
 export default config;
