@@ -9,18 +9,12 @@ datasource db {
 
 model Post {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    authorId  String   @db.ObjectId
-    author    Author   @relation(fields: [authorId], references: [id])
+    author    String
     title     String
     content   String
+    slug      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index(fields: [title, content])
-}
-
-model Author {
-    id    String @id @default(auto()) @map("_id") @db.ObjectId
-    name  String
-    posts Post[]
+    @@index(fields: [title, content, slug])
 }
