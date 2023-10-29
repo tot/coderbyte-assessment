@@ -58,6 +58,7 @@ function PostForm() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     await createPost({ ...values });
+    form.reset();
   };
 
   // Only allow alphanumeric + spaces and remove trailing spaces. Format string to dash-case.
