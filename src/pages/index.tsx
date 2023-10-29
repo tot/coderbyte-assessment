@@ -118,7 +118,7 @@ export default function Home() {
             {/* Search results */}
             <div className="pt-5">
               {status === "success" && <ResultsCount count={length} />}
-              <div className="grid grid-cols-1 divide-neutral-300 pt-5">
+              <div className="grid grid-cols-1 divide-y divide-neutral-300 pt-5">
                 {isFetched &&
                   data?.results.map((post) => (
                     <PostItem key={post.id} {...post} keywords={search} />
