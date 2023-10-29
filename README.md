@@ -1,28 +1,117 @@
-# Create T3 App
+# Coderbyte Text Search
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Overview
 
-## What's next? How do I make an app with this?
+This repository contains my submission for the Coderbyte take-home project: Text Search.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### Project Instructions
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Your task is to create a search box where users can type in keywords or phrases, and your application returns results with the text being searched for highlighted. You can use any front-end framework you want (e.g. React, Angular, Vue.js, etc.). For the back-end, you can use the language and framework of your choice as well along with the database (MySQL, MongoDB, etc.)
+
+Your application should store all the documents and text in the database and they should be fetched when the user types keywords in and presses a search button. Users can also add in their own documents via a UI with whatever properties they want, e.g. author, date, name, etc. Be sure to implement some sort of caching layer so the database is not accessed every single time users search for something. It should look something like the image below.
+
+![Example Project](https://5988877.fs1.hubspotusercontent-na1.net/hubfs/5988877/Screen%20Shot%202022-03-29%20at%2010-21-38%20PM-png.png)
+_Example Project_
+
+### Project Screenshots
+
+![Home Page](./preview/home.png)
+![Home Page with Search](./preview/home-search.png)
+![Write Page](./preview/write.png)
+
+## Tech Stack
 
 - [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
 - [Prisma](https://prisma.io)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
+- [Redis](https://redis.io)
+- [MongoDB](https://mongodb.com)
+- [Docker](https://docker.com)
 
-## Learn More
+## Getting Started
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### Prerequisites
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Make sure you have the following tools installed:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/) (or [Yarn](https://yarnpkg.com/) if preferred)
+- [Docker](https://www.docker.com/)
 
-## How do I deploy this?
+### Setup
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/tot/coderbyte-assessment.git
+
+   ```
+
+2. Change into the project directory:
+
+   ```bash
+   cd coderbyte-assessment
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Update environment variables. Rename the .env.sample file to .env
+
+5. Build the docker image:
+
+   ```bash
+   docker-compose up
+   ```
+
+   > This command will build the docker container and start the MongoDB and Redis images.
+
+6. Run the Next.js server:
+
+   Development mode
+
+   ```bash
+   npm run dev
+   ```
+
+   Production mode
+
+   ```bash
+   npm run build
+   ```
+
+### Database Management
+
+On project initialization and **after any modifications to `prisma.schema`**, make sure to generate database typings and update the database schema:
+
+```bash
+   npm run db:generate
+```
+
+```bash
+   npm run db:push
+```
+
+To seed the database with initial posts:
+
+```bash
+npx prisma db seed
+```
+
+To open the Prisma studio to view the database, run the command:
+
+```bash
+npm run db:studio
+```
+
+To seed the database:
+
+### Additional Scripts
+
+- **npm run lint**: Run ESLint for code linting.
+- **npm run build**: Build the Next.js application.
+- **npm start**: Start the Next.js production server.
