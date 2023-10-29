@@ -10,6 +10,7 @@ import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 
 import { type AppRouter } from "~/server/api/root";
+import { REACT_QUERY_CACHE_TTL, REACT_QUERY_STALE_TTL } from "./constants";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
@@ -43,6 +44,15 @@ export const api = createTRPCNext<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
+
+      queryClientConfig: {
+        defaultOptions: {
+          queries: {
+            staleTime: REACT_QUERY_STALE_TTL,
+            cacheTime: REACT_QUERY_CACHE_TTL,
+          },
+        },
+      },
     };
   },
   /**

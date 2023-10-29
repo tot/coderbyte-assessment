@@ -1,4 +1,11 @@
-const CACHE_TTL = 3600; // 30 seconds
-const VALIDITY_THRESHOLD = 3550;
+const CACHE_TTL = 10800; // 3 hours
+const REACT_QUERY_CACHE_TTL = 900; // 15 minutes
+const REACT_QUERY_STALE_TTL = 600; // 10 minutes
+const VALIDITY_THRESHOLD = 3550; // 1 hour - 10 seconds
 
-export { CACHE_TTL, VALIDITY_THRESHOLD };
+export {
+  CACHE_TTL,
+  REACT_QUERY_CACHE_TTL,
+  REACT_QUERY_STALE_TTL,
+  VALIDITY_THRESHOLD,
+};
