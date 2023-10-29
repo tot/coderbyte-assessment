@@ -9,12 +9,14 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: prisma
-      MONGO_REPLICA_HOST: 127.0.0.1
+      MONGO_REPLICA_HOST: mongo
       MONGO_REPLICA_PORT: 27018
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     ports:
       - "27018:27018"
+    networks:
+      - api
 
   redis:
     image: redis
@@ -22,6 +24,8 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - api
 
   blog:
     platform: "linux/amd64"
@@ -37,11 +41,18 @@ services:
     depends_on:
       - mongo
       - redis
-    # environment:
-    #   - DATABASE_URL=mongodb://mongodb:27018/blog
-    env_file:
-      - .env
+    environment:
+      DATABASE_URL: mongodb://root:prisma@mongo:27018/blog&directConnection=true
+      REDIS_URL: redis
+    # env_file:
+    #   - .env
+    networks:
+      - api
 
 volumes:
   mongodb_data:
   redis_data:
+
+networks:
+  api:
+    driver: bridge

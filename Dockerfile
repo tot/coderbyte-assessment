@@ -19,6 +19,10 @@ RUN \
  else echo "Lockfile not found." && exit 1; \
  fi
 
+##### REDIS
+
+FROM --platform=linux/amd64 redis:alpine AS redis
+
 ##### BUILDER
 
 FROM --platform=linux/amd64 node:16-alpine3.17 AS builder
