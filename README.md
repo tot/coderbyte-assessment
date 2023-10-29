@@ -70,7 +70,7 @@ Make sure you have the following tools installed:
 
 4. Update environment variables. Rename the .env.sample file to .env
 
-5. Build the docker image:
+5. Build the docker container:
 
    ```bash
    docker-compose up
