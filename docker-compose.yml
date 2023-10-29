@@ -23,25 +23,6 @@ services:
     volumes:
       - redis_data:/data
 
-  blog:
-    platform: "linux/amd64"
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_CLIENTVAR: "clientvar"
-    working_dir: /app
-    ports:
-      - "3000:3000"
-    image: blog-app
-    depends_on:
-      - mongo
-      - redis
-    # environment:
-    #   - DATABASE_URL=mongodb://mongodb:27018/blog
-    env_file:
-      - .env
-
 volumes:
   mongodb_data:
   redis_data:
